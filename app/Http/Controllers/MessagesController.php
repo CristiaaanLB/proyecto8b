@@ -21,9 +21,9 @@ class MessagesController extends Controller
             'name.required' =>  'Necesito tu nombre'
         ]);
 
-        // Mail::to('webmaster@correo.com')->queue(new MessagesReceived($message));
-        // return 'Mensaje enviado';
+        Mail::to('webmaster@correo.com')->queue(new MessagesReceived($message));
+        return 'Mensaje enviado';
 
-        return new MessagesReceived($message);
+        //return new MessagesReceived($message);
     }
 }
