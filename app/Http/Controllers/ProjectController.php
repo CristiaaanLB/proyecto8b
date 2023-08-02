@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Project;
 
-class PortfolioController extends Controller
+class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +20,13 @@ class PortfolioController extends Controller
         //     ['title'=>'Proyecto #4']
         // ];
 
-        $portfolio = DB::table('projects')->get();
+        // $portfolio = DB::table('projects')->get();
 
-        return view('portfolio', compact('portfolio'));
+        // $projects = Project::latest()->cursorPaginate(4);
+
+        // return view('portfolio', compact('projects'));
+
+        return view('projects/index', ['projects' => Project::latest()->cursorPaginate(2)]);
     }
 
     /**
@@ -29,7 +34,14 @@ class PortfolioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Project::create([
+        //     'title' => request('title'),
+        //     'description' => request('description')
+        // ]);
+
+        Project::create(request()->all());
+
+        return redirect()->route('projects.index');
     }
 
     /**
@@ -37,7 +49,8 @@ class PortfolioController extends Controller
      */
     public function show(string $id)
     {
-        //
+        //findOrFail evita la excepcion de enviar objetos null por url
+        return view('projects.show', ['project' => Project::findOrFail($id)]);
     }
 
     /**
@@ -54,5 +67,11 @@ class PortfolioController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function create(){
+
+        return view('projects.create');
+
     }
 }
