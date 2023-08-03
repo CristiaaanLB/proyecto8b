@@ -39,7 +39,14 @@ class ProjectController extends Controller
         //     'description' => request('description')
         // ]);
 
-        Project::create(request()->all());
+        //Project::create(request()->all());
+
+        $fields = request()->validate([
+            'title' => 'required',
+            'description' => 'required'
+        ]);
+
+        Project::create($fields);
 
         return redirect()->route('projects.index');
     }
@@ -70,8 +77,6 @@ class ProjectController extends Controller
     }
 
     public function create(){
-
         return view('projects.create');
-
     }
 }
